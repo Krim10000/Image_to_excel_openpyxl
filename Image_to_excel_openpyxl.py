@@ -1,14 +1,41 @@
 
 
 #listado de las imagenes en el presente directorio
+#0
 print("Starting")
 
+
 import os
+from PIL import Image
+import imageio
+import numpy as np
 
-print(" Searching images in the current directory")
-Search_images = [x for x in os.listdir() if x.endswith(".png") or x.endswith(".jpg")]# search png and jpg, to add a new format add or x.endswith(".EXTENTION")
 
-print("  "+  str(len(Search_images))+" images were found")
+
+#Search tif images
+#1
+print(" Searching tif images in the current directory")
+Search_tif = [x for x in os.listdir() if x.endswith(".tif") ]  
+
+#2
+print("  "+  str(len(Search_tif))+" .tif images were found")
+
+
+#Convierte las imagenes a png
+
+for Itif in Search_tif:
+    im = imageio.imread(Itif)
+    img_uint8 = im.astype(np.uint8)
+    imageio.imwrite(Itif[0:-4]+ ".png",img_uint8)
+#3
+print ( "   "+str(len(Search_tif)) + " images .tif were converted to .png" )
+#4
+print("    Searching images png & jpg in the current directory")
+Search_images = [x for x in os.listdir() if x.endswith(".png") or x.endswith(".jpg")]# or x.endswith(".tif") ]  # search png, jpg  , to add a new format add" or x.endswith(".EXTENTION") " to the []
+
+#5
+print("     "+  str(len(Search_images))+" .png & jpg images were found")
+
 
 #crea un archivo excel y adjunta las imagenes
 
@@ -25,8 +52,8 @@ for R in range(1,1000):
     ws.row_dimensions[R].height  = 200
 
 wcolA = 25
-
-print("   Writing excel")
+#6
+print("      Writing excel")
 i=0
 for I in Search_images:
     i=i+1
@@ -48,4 +75,5 @@ ws.column_dimensions["B"].width = wcolA
 ws.column_dimensions["C"].width = wcolA
 ws.column_dimensions["D"].width = wcolA
 wb.save(filename = dest_filename)
-print("    File ready")
+#7
+print("       File ready")
