@@ -33,10 +33,10 @@ float32= []
 #agrega las imagenes tif a su lista correspondiente dependiendo si son de 8, 16 o 32 bits.
 for Itif in Search_tif:
     
-    print(Itif)
+    #print(Itif)
 
     im = imageio.imread(Itif)
-    print(im.dtype)
+   # print(im.dtype)
     if im.dtype == "uint8":
         uint8.append(Itif)
     if im.dtype == "uint16":
