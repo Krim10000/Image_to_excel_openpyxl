@@ -15,7 +15,7 @@ import numpy as np
 #Search tif images
 #1
 print(" Searching .tif/.tiff images in the current directory")
-Search_tif = [x for x in os.listdir() if x.endswith(".tif") or x.endswith(".tiff") ]  
+Search_tif = [x for x in os.listdir() if x.endswith(".tif") or x.endswith(".tiff") or x.endswith(".TIF") or x.endswith(".TIFF")]  
  
 
 #2
@@ -33,10 +33,10 @@ float32= []
 #agrega las imagenes tif a su lista correspondiente dependiendo si son de 8, 16 o 32 bits.
 for Itif in Search_tif:
     
-    #print(Itif)
+    print(Itif)
 
     im = imageio.imread(Itif)
-    #print(im.dtype)
+    print(im.dtype)
     if im.dtype == "uint8":
         uint8.append(Itif)
     if im.dtype == "uint16":
@@ -65,12 +65,23 @@ for Itif16 in uint16:
 print ( "   "+str(len(uint16))+" images .tif/.tiff 16 bits converted to  .png  8 bits")
 
 ##############################################################################################
+
+from matplotlib import pyplot as plt
+from matplotlib import cm
+
+from PIL import Image
+from numpy import array
+
+
 k =1
 for Itif32 in float32:
-    im = imageio.imread(Itif32)
-    im = im/16777216
-    img_uint8 = im.astype(np.uint8)
-    imageio.imwrite(Itif32[0:-4]+".png",img_uint8)
+
+    f32 = Image.open(Itif32)
+    f32.convert("P").save(Itif32[0:-4]+".png")
+    # L (8-bit pixels, black and white)
+    # P (8-bit pixels, mapped to any other mode using a color palette)
+
+ 
     k=k+1
 print ( "   "+str(len(float32)) + " images .tif/.tiff 32 bits converted to  .png  8 bits")
 
